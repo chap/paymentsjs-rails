@@ -26,7 +26,6 @@ class PaymentsJs
 	define_setting :amount, "1.00"
 	define_setting :pre_auth, false
 	define_setting :environment, "cert"
-	define_setting :secret, "wtC5Ns0jbtiNA8sP"
 	define_setting :iv, PaymentsJs.iv
 	
 	def self.salt
@@ -50,7 +49,7 @@ class PaymentsJs
 		environment  = PaymentsJs.environment
 		secret       = PaymentsJs.secret
 		
-		req = {mid: mid, mkey: mkey, api_key: api_key, api_secret: api_secret, req_id: req_id, request_type: request_type, postback_url: postback_url, amount: amount, pre_auth: pre_auth, environment: environment, secret: secret }
+		req = {mid: mid, mkey: mkey, api_key: api_key, api_secret: api_secret, req_id: req_id, request_type: request_type, postback_url: postback_url, amount: amount, pre_auth: pre_auth, environment: environment }
 		
 		req
 	end
@@ -59,7 +58,7 @@ class PaymentsJs
 		cipher     = OpenSSL::Cipher::AES.new(256, :CBC)
 		cipher.encrypt
 		req        = PaymentsJs.req
-		secret     = PaymentsJs.secret
+		secret     = PaymentsJs.api_secret
 		data       = JSON.generate(req)
 		salt       = PaymentsJs.salt
 		key        = OpenSSL::PKCS5.pbkdf2_hmac_sha1(secret, salt, 1500, 32)
