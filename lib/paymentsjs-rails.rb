@@ -12,9 +12,17 @@ class PaymentsJs
 		req_id
 	end
 	
-	def self.iv
+	def self.generate_iv
 		iv = OpenSSL::Random.pseudo_bytes(16)
 		iv
+	end
+	
+	def self.generate_salt
+		salt = PaymentsJs.iv.unpack('H*').first
+		salt = salt.bytes.to_a
+		salt = salt.pack('U*')
+		salt = Base64.strict_encode64(salt)
+		salt
 	end
 
 	define_setting :mid, "999999999997"
@@ -27,15 +35,8 @@ class PaymentsJs
 	define_setting :amount, "1.00"
 	define_setting :pre_auth, false
 	define_setting :environment, "cert"
-	define_setting :iv, PaymentsJs.iv
-	
-	def self.salt
-		salt = PaymentsJs.iv.unpack('H*').first
-		salt = salt.bytes.to_a
-		salt = salt.pack('U*')
-		salt = Base64.strict_encode64(salt)
-		salt
-	end
+	define_setting :iv, PaymentsJs.generate_iv
+	define_setting :salt, PaymentsJs.generate_salt
 	
 	def self.req
 		mid          = PaymentsJs.mid
@@ -58,7 +59,7 @@ class PaymentsJs
 		cipher     = OpenSSL::Cipher::AES.new(256, :CBC)
 		cipher.encrypt
 		req        = PaymentsJs.req
-		api_secret     = PaymentsJs.api_secret
+		api_secret = PaymentsJs.api_secret
 		data       = JSON.generate(req)
 		salt       = PaymentsJs.salt
 		key        = OpenSSL::PKCS5.pbkdf2_hmac_sha1(api_secret, salt, 1500, 32)
