@@ -32,7 +32,7 @@ Follow the [PaymentsJS GitHub Quick Start guide](https://github.com/SagePayments
 ```
 part.
 
-PaymentsJS requires several variables to be added to the `($UI).Init()` function in order to work. The Quick Start comes with several variables preloaded. We'll replace these with embedded ruby and the smae preloaded variables:
+PaymentsJS requires several variables to be added to the `$UI.Initialize()` function in order to work. The Quick Start comes with several variables preloaded. We'll replace these with embedded ruby and the smae preloaded variables:
 
 ```javascript
 PayJS(['PayJS/UI'], // the name of the module we want to use
