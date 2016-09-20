@@ -62,7 +62,7 @@ Reload the page and the payment system should work.
 
 ##Configuring
 
-In your `config/initializers/my_gem.rb` file, add this:
+In your `config/initializers/paymentsjs-rails.rb` file, add this:
 ```ruby
 PaymentsJs.configuration do |config|
 	config.mid          = "YOUR MERCHANT ID"
