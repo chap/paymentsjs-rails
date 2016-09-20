@@ -40,7 +40,7 @@ PaymentsJS requires several variables to be added to the `$UI.Initialize()` func
 PayJS(['PayJS/UI'], // the name of the module we want to use
 function($UI) { // assigning the module to a variable
 	$UI.Initialize({ // configuring the UI
-		apiKey: "<%= PaymentJs.api_key %>", // your developer ID
+		apiKey: "<%= PaymentsJs.api_key %>", // your developer ID
 		merchantId: "<%= PaymentsJs.mid %>", // your 12-digit account identifier
 		authKey: "<%= PaymentsJs.encrypt %>", // covered in the next section!
 		requestType: "<%= PaymentsJs.request_type %>", // use can use "vault" to tokenize a card without charging it
