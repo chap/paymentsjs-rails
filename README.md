@@ -15,7 +15,7 @@ bundle install
 	
 And add the following file:
 ```ruby
-config/initializers/my_gem.rb
+config/initializers/paymentsjs-rails.rb
 ```	
 Then, in your `app/assets/javascripts/application.js` file, add:
 ```javascript
