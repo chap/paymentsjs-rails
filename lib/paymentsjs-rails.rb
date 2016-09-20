@@ -3,6 +3,7 @@ class PaymentsJs
 	require 'openssl'
 	require 'base64'
 	require 'json'
+  	require 'paymentsjs-rails/rails/engine'
 	
 	extend Configuration
 	
@@ -47,7 +48,6 @@ class PaymentsJs
 		amount       = PaymentsJs.amount
 		pre_auth     = PaymentsJs.pre_auth
 		environment  = PaymentsJs.environment
-		secret       = PaymentsJs.secret
 		
 		req = {mid: mid, mkey: mkey, api_key: api_key, api_secret: api_secret, req_id: req_id, request_type: request_type, postback_url: postback_url, amount: amount, pre_auth: pre_auth, environment: environment }
 		
@@ -58,10 +58,10 @@ class PaymentsJs
 		cipher     = OpenSSL::Cipher::AES.new(256, :CBC)
 		cipher.encrypt
 		req        = PaymentsJs.req
-		secret     = PaymentsJs.api_secret
+		api_secret     = PaymentsJs.api_secret
 		data       = JSON.generate(req)
 		salt       = PaymentsJs.salt
-		key        = OpenSSL::PKCS5.pbkdf2_hmac_sha1(secret, salt, 1500, 32)
+		key        = OpenSSL::PKCS5.pbkdf2_hmac_sha1(api_secret, salt, 1500, 32)
 		cipher.key = key
 		cipher.iv  = PaymentsJs.iv
 		authKey    = cipher.update(data) + cipher.final()
